@@ -1,5 +1,4 @@
 public with sharing class ApplicationHelper {
-
     public static Decimal calculateFederalTax(Decimal annualSalary) {
         // calculate federal tax amount
         // get applicable tax brackets for salary amount
@@ -281,10 +280,23 @@ public with sharing class ApplicationHelper {
         }
         // map contacts to accounts
         Map<Id, Id> accountIdToContactId = new Map<Id, Id>();
+        for (Contact primcont : [SELECT Id, FirstName, LastName, AccountId, Level__c, RecordTypeId
+                                FROM Contact
+                                WHERE AccountId IN :companyAcctIds
+                                AND RecordType.DeveloperName = 'General'
+                                AND Level__c = 'Primary'
+                                WITH SECURITY_ENFORCED])
+            {
+                if (!accountIdToContactId.containsKey(primcont.AccountId)) {
+                    accountIdToContactId.put(primcont.AccountId, primcont.Id);
+                }
+            }
+        // get contacts that are not Primary
         for (Contact cont : [SELECT Id, FirstName, LastName, AccountId, Level__c, RecordTypeId
                             FROM Contact
                             WHERE AccountId IN :companyAcctIds
                             AND RecordType.DeveloperName = 'General'
+                            AND (Level__c != 'Primary' OR Level__c = null)
                             WITH SECURITY_ENFORCED])
             {
                 if (!accountIdToContactId.containsKey(cont.AccountId)) {

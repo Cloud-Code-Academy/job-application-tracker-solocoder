@@ -1,0 +1,13 @@
+<template>
+  <lightning-card title="TakeHomePayCalculator" icon-name="custom:custom14">
+    <div class="slds-m-around_medium">
+        <p>Take-home Pay Calculator For Annual Salary ${annualSalary}</p>
+        <p>Take-Home Pay = ${takeHomePay}</p>
+        <p>Federal tax amount = ${federalTaxAmount}</p>
+        <p>Medicare tax amount = ${medicareTaxAmount}</p>
+        <p>Social Security tax amount = ${socialSecurityAmount}</p>
+        <lightning-input label="Enter Annual Salary" value={annualSalary} onchange={changeHandler}></lightning-input>
+        <lightning-button label="Calculate Take-home Pay" onclick={onClick}></lightning-button>
+    </div>
+  </lightning-card>
+</template>
