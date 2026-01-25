@@ -1,10 +1,9 @@
-import { LightningElement, api, track, wire } from 'lwc';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { LightningElement, api } from 'lwc';
 import calculateFederalTax from '@salesforce/apex/LWC_Controller.calculateFederalTax';
 import calculateMedicareTax from '@salesforce/apex/LWC_Controller.calculateMedicareTax';
 import calculateSocialSecurityTax from '@salesforce/apex/LWC_Controller.calculateSocialSecurityTax';
 export default class TakeHomePayCalculator extends LightningElement {
-
+    
     annualSalary;
     federalTaxAmount;
     medicareTaxAmount;
@@ -16,11 +15,14 @@ export default class TakeHomePayCalculator extends LightningElement {
 
     async calculateTakeHomePay(){
         try { 
-        let salary = Number(this.annualSalary);
+        let salary = Number(this.annualSalary).toFixed(2);
         let federal = await calculateFederalTax({ annualSalary : this.annualSalary });
         let medical = await calculateMedicareTax ({ annualSalary : this.annualSalary });
         let social = await calculateSocialSecurityTax({ annualSalary : this.annualSalary });
-        this.takeHomePay = Math.round(salary - (federal + medical + social));
+        this.takeHomePay = (salary - (federal + medical + social)).toFixed(2);
+        this.semiAnnualTakeHomePay = (this.takeHomePay/2).toFixed(2);
+        this.monthlyTakeHomePay = (this.takeHomePay/12).toFixed(2);
+        this.biWeeklyTakeHomePay = (this.takeHomePay/26).toFixed(2);
         }
         catch (error) {
         console.log('Salary:', salary);
@@ -32,10 +34,10 @@ export default class TakeHomePayCalculator extends LightningElement {
     }
     
     
-    async calFederalTax(){
-        await calculateFederalTax({ annualSalary : this.annualSalary })
+    calFederalTax(){
+        calculateFederalTax({ annualSalary : this.annualSalary })
             .then(result => {
-                this.federalTaxAmount = Math.round(result);
+                this.federalTaxAmount = (result).toFixed(2);
             })
             .catch(error => {
                 console.log('Error ::: ' + error);
@@ -45,7 +47,7 @@ export default class TakeHomePayCalculator extends LightningElement {
     calcMedicareTax(){
         calculateMedicareTax({ annualSalary : this.annualSalary })
             .then(result => {
-                this.medicareTaxAmount = Math.round(result);
+                this.medicareTaxAmount = (result).toFixed(2);
             })
             .catch(error => {
                 console.log('Error ::: ' + error);
@@ -55,7 +57,7 @@ export default class TakeHomePayCalculator extends LightningElement {
     calcSocialSecurityTax(){
         calculateSocialSecurityTax({ annualSalary : this.annualSalary })
             .then(result => {
-                this.socialSecurityAmount = Math.round(result);
+                this.socialSecurityAmount = (result).toFixed(2);
             })
             .catch(error => {
                 console.log('Error ::: ' + error);

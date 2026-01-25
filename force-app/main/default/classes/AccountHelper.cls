@@ -1,5 +1,5 @@
+/**
+ * Account helper class
+ */
 public with sharing class AccountHelper {
-    public AccountHelper() {
-
-    }
 }

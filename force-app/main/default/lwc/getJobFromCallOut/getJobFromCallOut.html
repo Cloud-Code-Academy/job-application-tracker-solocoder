@@ -1,0 +1,16 @@
+<template>
+        <lightning-card  title="Get Jobs from Jobble">
+        <div>
+            <div class="slds-p-around_medium lgc-bg">
+                <lightning-input type="text" label="Enter job keyword" value={keyword} onchange={changeHandler} placeholder="Salesforce Developer"></lightning-input>
+                <lightning-input type="text" label="Enter job location" value={location} onchange={changeHandler2} placeholder="Seattle, WA"></lightning-input>
+                <lightning-input type="text" label="Enter page number from result" value={page} onchange={changeHandler3} placeholder="5"></lightning-input>
+                <lightning-input type="text" label="Enter number of jobs to create" value={resultsOnPage} onchange={changeHandler4} placeholder="5"></lightning-input>
+                <lightning-input type="text" label="Enter job minimum salary" value={minSalary} onchange={changeHandler5} placeholder="100000"></lightning-input>
+            </div>
+        </div>
+        <lightning-button class="slds-p-around_medium lgc-bg" label="Get Job(s)" onclick={handleOnclick}></lightning-button>
+            <p class="slds-p-horizontal_small">Jobs will be created automatically.</p>
+            <p slot="footer">Cloud Code Academy</p>
+        </lightning-card>
+</template>

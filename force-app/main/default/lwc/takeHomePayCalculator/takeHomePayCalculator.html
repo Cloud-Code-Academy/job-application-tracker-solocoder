@@ -1,13 +1,38 @@
 <template>
-  <lightning-card title="TakeHomePayCalculator" icon-name="custom:custom14">
-    <div class="slds-m-around_medium">
-        <p>Take-home Pay Calculator For Annual Salary ${annualSalary}</p>
-        <p>Take-Home Pay = ${takeHomePay}</p>
-        <p>Federal tax amount = ${federalTaxAmount}</p>
-        <p>Medicare tax amount = ${medicareTaxAmount}</p>
-        <p>Social Security tax amount = ${socialSecurityAmount}</p>
-        <lightning-input label="Enter Annual Salary" value={annualSalary} onchange={changeHandler}></lightning-input>
-        <lightning-button label="Calculate Take-home Pay" onclick={onClick}></lightning-button>
-    </div>
-  </lightning-card>
+        <lightning-card  title="Take-Home Pay Calculator" icon-name="standard:account">
+          <div>
+            <div class="slds-p-around_medium lgc-bg">
+              <lightning-input type="text" label="Enter Annual Salary" value={annualSalary} onchange={changeHandler}></lightning-input>
+            </div>
+          </div>
+            <lightning-button class="slds-p-around_medium lgc-bg" label="Calculate" onclick={onClick}></lightning-button>
+            <p class="slds-p-horizontal_small">Calculates take-home pay after taxes</p>
+          <div></div>
+            <div class="slds-p-around_medium lgc-bg">
+              <table class="table">
+                <tr class="tr">
+                  <th>Frequency</th>
+                  <th>Take-Home Pay</th>
+                </tr>
+                <tr></tr>
+                <tr class="tr">
+                  <td>Annual Take-Home Pay</td>
+                  <td>${takeHomePay}</td>
+                </tr>
+                <tr class="tr">
+                  <td>Semi-Annual Pay</td>
+                  <td>${semiAnnualTakeHomePay}</td>
+                </tr>
+                <tr class="tr">
+                  <td>Monthly Pay</td>
+                  <td>${monthlyTakeHomePay}</td>
+                </tr>
+                <tr class="tr">
+                  <td>Bi-Weekly Pay</td>
+                  <td>${biWeeklyTakeHomePay}</td>
+                </tr>
+              </table>  
+            </div>
+            <p slot="footer">Cloud Code Academy</p>
+        </lightning-card>
 </template>

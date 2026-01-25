@@ -1,4 +1,12 @@
+/**
+ * Application Helper
+ */
 public with sharing class ApplicationHelper {
+    /**
+     * This method caculates the federal taxes of the annual salary
+     * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
+     * @return taxAmount calculated federal tax amount for the annual salary.
+     */
     public static Decimal calculateFederalTax(Decimal annualSalary) {
         // calculate federal tax amount
         // get applicable tax brackets for salary amount
@@ -24,6 +32,12 @@ public with sharing class ApplicationHelper {
         }
         return taxAmount.setScale(2);
     }
+
+    /**
+    * This method caculates the medicare withholding on the annual salary
+    * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
+    * @return Decimal calculated Medicare tax amount for the annual salary.
+    */
     public static Decimal calculateMedicareTax(Decimal annualSalary) {
         // calculate Medicare tax
         List<Tax_Rate__c> medicareRate = [SELECT Tax_Rate_Type__c, Medicare_Threshold_Amount__c, Tax_Rate__c, Additional_Medicare_Tax_Rate__c
@@ -41,6 +55,12 @@ public with sharing class ApplicationHelper {
                 }
         return medicareTaxAmount.setScale(2);
     }
+
+    /**
+    * This method caculates the social security on the annual salary
+    * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
+    * @return Decimal calculated Social Security tax amount for the annual salary.
+    */
     public static Decimal calculateSocialSecurityTax(Decimal annualSalary) {
         // calculate Social Security tax
         List<Tax_Rate__c> socialSecurityRate = [SELECT Tax_Rate_Type__c, Tax_Rate__c, Social_Security_Wage_Limit__c
@@ -50,9 +70,15 @@ public with sharing class ApplicationHelper {
                                                 LIMIT 1];
         Decimal taxableAmount = Math.min(annualSalary, socialSecurityRate[0].Social_Security_Wage_Limit__c);
         Decimal socialSecurityTaxAmount = taxableAmount * (socialSecurityRate[0].Tax_Rate__c / 100);
-        System.debug('TaxableAmount::: ' + taxableAmount + ' Social Security Tax Amount::: ' + socialSecurityTaxAmount);
+        // System.debug('TaxableAmount::: ' + taxableAmount + ' Social Security Tax Amount::: ' + socialSecurityTaxAmount);
         return socialSecurityTaxAmount.setScale(2);
     }
+
+    /**
+    * This method creates task(s) based on the application status field
+    * @param app record
+    * @return List returns a list of tasks to be created
+     */
     public static List<Task> createTasksForStatus(Application__c app) {
         // create tasks associated with application status
         List<Task> tasksToCreate = new List<Task>();
@@ -265,52 +291,5 @@ public with sharing class ApplicationHelper {
             }
         }
         return tasksToCreate;
-    }
-    public static void setPrimaryContacts(List<Job__c> jobRecords) {
-        List<Job__c> jobRecordsToUpdate = new List<Job__c>();
-        // set the primary contact on Job record
-        jobRecords = [SELECT Id, Company__c, Company__r.Name, Primary_Contact__c
-                      FROM Job__c
-                      WHERE Primary_Contact__c = null
-                      WITH SECURITY_ENFORCED];
-        // get set of account ids where primary contact is null
-        Set<Id> companyAcctIds = new Set<Id>();
-        for (Job__c jobs : jobRecords) {
-            companyAcctIds.add(jobs.Company__c);
-        }
-        // map contacts to accounts
-        Map<Id, Id> accountIdToContactId = new Map<Id, Id>();
-        for (Contact primcont : [SELECT Id, FirstName, LastName, AccountId, Level__c, RecordTypeId
-                                FROM Contact
-                                WHERE AccountId IN :companyAcctIds
-                                AND RecordType.DeveloperName = 'General'
-                                AND Level__c = 'Primary'
-                                WITH SECURITY_ENFORCED])
-            {
-                if (!accountIdToContactId.containsKey(primcont.AccountId)) {
-                    accountIdToContactId.put(primcont.AccountId, primcont.Id);
-                }
-            }
-        // get contacts that are not Primary
-        for (Contact cont : [SELECT Id, FirstName, LastName, AccountId, Level__c, RecordTypeId
-                            FROM Contact
-                            WHERE AccountId IN :companyAcctIds
-                            AND RecordType.DeveloperName = 'General'
-                            AND (Level__c != 'Primary' OR Level__c = null)
-                            WITH SECURITY_ENFORCED])
-            {
-                if (!accountIdToContactId.containsKey(cont.AccountId)) {
-                    accountIdToContactId.put(cont.AccountId, cont.Id);
-                }
-            }
-        // assign the primary contact to job based on AccountId
-        for (Job__c jobContact : jobRecords) {
-            if (jobContact.Company__c != null && accountIdToContactId.containsKey(jobContact.Company__c)) {
-            Id contactIdToAssign = accountIdToContactId.get(jobContact.Company__c);
-            jobContact.Primary_Contact__c = contactIdToAssign;
-            jobRecordsToUpdate.add(jobContact);
-            }
-        }
-        Database.update(jobRecordsToUpdate);
     }
 }
