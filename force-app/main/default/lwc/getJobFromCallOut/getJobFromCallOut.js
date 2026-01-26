@@ -1,12 +1,13 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import getJobFromJobble from '@salesforce/apex/JobHelper.getJobFromJobble';
 export default class GetJobFromCallOut extends LightningElement {
 
-keyword = 'Salesforce Developer';
-location = 'Seattle, WA';
-page = 5;
-resultsOnPage = 2;
-minSalary = 90000;
+keyword;
+location;
+page;
+resultsOnPage;
+minSalary;
+@track showSuccess = false;
 
     changeHandler(event) {
         this.keyword = event.target.value;
@@ -31,8 +32,8 @@ minSalary = 90000;
 
     async handleOnclick() {
             await getJobFromJobble({keyword: this.keyword, location: this.location, page: this.page, resultsOnPage: this.resultsOnPage, minSalary: this.minSalary})
-            .then(() => {
-                console.log('Record created sucessfully');
+            .then(result => {
+                this.showSuccess = true;
             })
             .catch (error => {
                 console.error('Error::: ' + error);

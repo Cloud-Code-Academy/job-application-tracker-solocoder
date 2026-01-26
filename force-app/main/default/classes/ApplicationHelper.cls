@@ -15,6 +15,7 @@ public with sharing class ApplicationHelper {
                                                 WHERE Tax_Rate_Type__c = 'Federal' AND Bracket_Min__c <= :annualSalary
                                                 WITH SECURITY_ENFORCED
                                                 ORDER BY Bracket_Min__c];
+        //System.debug('applicableTaxRates' + applicableTaxRates);
         Decimal remainingSalary = annualSalary;
         Decimal taxAmount = 0;
         for (Tax_Rate__c bracket : applicableTaxRates) {
@@ -32,7 +33,6 @@ public with sharing class ApplicationHelper {
         }
         return taxAmount.setScale(2);
     }
-
     /**
     * This method caculates the medicare withholding on the annual salary
     * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
@@ -47,15 +47,16 @@ public with sharing class ApplicationHelper {
                                           LIMIT 1];
         Decimal medicareTaxAmount = 0;
         Decimal taxAmountAboveThreshold = 0;
-        if (annualSalary < medicareRate[0].Medicare_Threshold_Amount__c) {
+        if (annualSalary <= medicareRate[0].Medicare_Threshold_Amount__c) {
+            // calculate tax is below or equal to threshold amount
             medicareTaxAmount = annualSalary * (medicareRate[0].Tax_Rate__c / 100);
         } else {
+            // calculate tax if above threshold amount
             taxAmountAboveThreshold = (annualSalary - medicareRate[0].Medicare_Threshold_Amount__c) * (medicareRate[0].Additional_Medicare_Tax_Rate__c / 100);
             medicareTaxAmount = (annualSalary * (medicareRate[0].Tax_Rate__c / 100)) + taxAmountAboveThreshold;
                 }
         return medicareTaxAmount.setScale(2);
     }
-
     /**
     * This method caculates the social security on the annual salary
     * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
@@ -70,10 +71,8 @@ public with sharing class ApplicationHelper {
                                                 LIMIT 1];
         Decimal taxableAmount = Math.min(annualSalary, socialSecurityRate[0].Social_Security_Wage_Limit__c);
         Decimal socialSecurityTaxAmount = taxableAmount * (socialSecurityRate[0].Tax_Rate__c / 100);
-        // System.debug('TaxableAmount::: ' + taxableAmount + ' Social Security Tax Amount::: ' + socialSecurityTaxAmount);
         return socialSecurityTaxAmount.setScale(2);
     }
-
     /**
     * This method creates task(s) based on the application status field
     * @param app record
