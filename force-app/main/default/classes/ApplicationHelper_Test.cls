@@ -13,6 +13,25 @@ public with sharing class ApplicationHelper_Test {
         taxRates.add(new Tax_Rate__c(Tax_Rate_Type__c = 'Medicare', Medicare_Threshold_Amount__c = 200000, Additional_Medicare_Tax_Rate__c = .90, Tax_Rate__c = 1.45));
         taxRates.add(new Tax_Rate__c(Tax_Rate_Type__c = 'Social Security', Social_Security_Wage_Limit__c = 176100, Tax_Rate__c = 6.2));
         insert taxRates;
+
+        Account newAcc = new Account (Name = 'Jacks Consulting Firm');
+        insert newAcc;
+
+        Contact newCont = new Contact (LastName = 'Snuggles', Level__c = 'Primary', AccountId = newAcc.Id);
+        insert newCont;
+
+        Job__c newJob = new Job__c(Job_Description__c = 'Salesforce Developer II', Company__c = newAcc.Id);
+        insert newJob;
+
+        Contact newAppCont = new Contact (LastName = 'Bloom', RecordTypeId = '012fj000003jOMDAA2');
+        insert newAppCont;
+
+        Application__c newApp = new Application__c (
+            Applicant__c = newAppCont.Id,
+            Job_Number__c = newJob.Id,
+            Application_Status__c = ''
+            );
+        insert newApp;
     }
 
     @IsTest
@@ -37,30 +56,15 @@ public with sharing class ApplicationHelper_Test {
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Saved() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+        Application__c newApp = [SELECT Id, Application_Status__c
+                                 FROM Application__c
+                                 LIMIT 1];
 
         newApp.Application_Status__c = 'Saved';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -69,37 +73,22 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(3, tasksCreated.size(), 'Should have created 3 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }
+    
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Applying() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+        Application__c newApp = [SELECT Id, Application_Status__c
+                                 FROM Application__c
+                                 LIMIT 1];
 
         newApp.Application_Status__c = 'Applying';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -108,37 +97,21 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(5, tasksCreated.size(), 'Should have created 5 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Applied() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+        Application__c newApp = [SELECT Id, Application_Status__c
+                                 FROM Application__c
+                                 LIMIT 1];
 
         newApp.Application_Status__c = 'Applied';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -147,37 +120,21 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(4, tasksCreated.size(), 'Should have created 4 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Interviewing() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+        Application__c newApp = [SELECT Id, Application_Status__c
+                                 FROM Application__c
+                                 LIMIT 1];
 
         newApp.Application_Status__c = 'Interviewing';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -186,37 +143,21 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(5, tasksCreated.size(), 'Should have created 5 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Negotiating() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+        Application__c newApp = [SELECT Id, Application_Status__c
+                                 FROM Application__c
+                                 LIMIT 1];
 
         newApp.Application_Status__c = 'Negotiating';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -225,37 +166,21 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(3, tasksCreated.size(), 'Should have created 3 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Accepted() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+        Application__c newApp = [SELECT Id, Application_Status__c
+                                 FROM Application__c
+                                 LIMIT 1];
 
         newApp.Application_Status__c = 'Accepted';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -264,37 +189,21 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(2, tasksCreated.size(), 'Should have created 2 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }
 
     @IsTest
     public static void createTasksOnChangeStatus_Pos_Closed() {
-        Account newAcc = new Account (Name = 'My Test Account');  
-        insert newAcc;
-
-        Contact newCont = new Contact (LastName = 'TestContact', Level__c = 'Primary', AccountId = newAcc.Id);
-        insert newCont;
-
-        Job__c newJob = new Job__c(Job_Description__c = 'Test Job Description', Company__c = newAcc.Id);
-        insert newJob;
-
-        Contact newAppCont = new Contact (LastName = 'ApplicantContact', RecordTypeId = '012fj000003jOMDAA2');
-        insert newAppCont;
-
-        Application__c newApp = new Application__c (
-            Applicant__c = newAppCont.Id, 
-            Job_Number__c = newJob.Id,
-            Application_Status__c = ''
-            );
-        insert newApp;
+            Application__c newApp = [SELECT Id, Application_Status__c
+                                     FROM Application__c
+                                     LIMIT 1];
 
         newApp.Application_Status__c = 'Closed';
         update newApp;
 
         Test.startTest();
-        ApplicationHelper.createTasksForStatus(newApp);
+            ApplicationHelper.createTasksForStatus(newApp);
         Test.stopTest();
 
         List<Task> tasksCreated = [SELECT Id, WhatId, Subject FROM Task];
@@ -303,7 +212,6 @@ public with sharing class ApplicationHelper_Test {
         for (Task t : tasksCreated) {
             actualSubjects.add(t.Subject);
         }
-        
         Assert.areEqual(2, tasksCreated.size(), 'Should have created 2 tasks');
         Assert.areEqual(expectedSubjects, actualSubjects, 'Actual task subjects do not match expected subjects');
     }

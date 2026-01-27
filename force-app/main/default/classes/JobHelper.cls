@@ -67,7 +67,7 @@ public with sharing class JobHelper {
     */
     @AuraEnabled
     public static void getJobFromJobble(String keyword, String location, Integer page, Integer resultsOnPage, Integer minSalary) {
-        string parm = '{"keywords": "' + keyword + '", "location": "' + location + '", "page": "' + page + '", "resultonpage": "' + resultsOnPage + '", "salary": "' + minSalary + '"}';
+        String parm = '{"keywords": "' + keyword + '", "location": "' + location + '", "page": "' + page + '", "resultonpage": "' + resultsOnPage + '", "salary": "' + minSalary + '"}';
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://jooble.org/api' + '/85165ee4-2fcb-4827-bbdc-9c34fbaf4061');
         req.setMethod('POST');
