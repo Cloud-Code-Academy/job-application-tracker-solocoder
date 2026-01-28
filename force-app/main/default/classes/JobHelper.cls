@@ -87,9 +87,10 @@ public with sharing class JobHelper {
      * Creates job record(s) based on search criteria
      * @param jsonResponse the JSON string payload that represents the job(s)
      */
+    @TestVisible
     private static void createJobFromJson(String jsonResponse) {
         List<Job__c> jobsToInsert = new List<Job__c>();
-        Account acct = [SELECT Id, Name FROM Account WHERE Name = 'Jooble' WITH SECURITY_ENFORCED];
+        //Account acct = [SELECT Id, Name FROM Account WHERE Name = 'Jooble' WITH SECURITY_ENFORCED];
         Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(jsonResponse);
 
         List<Object> jobs = (List<Object>) jsonMap.get('jobs');
@@ -98,7 +99,7 @@ public with sharing class JobHelper {
             Map<String, Object> jobsFound = (Map<String, Object>) obj;
 
             Job__c job = new Job__c();
-            job.Company__c = acct.Id;
+            //job.Company__c = acct.Id;
             job.Salary_Range__c = (String) jobsFound.get('salary');
             job.Job_Description__c = (String) jobsFound.get ('snippet');
             job.Company_Name__c = (String) jobsFound.get('company');
@@ -111,6 +112,6 @@ public with sharing class JobHelper {
             jobsToInsert.add(job);
         }
         // other option is to return the list and then call the insert instead of auto inserting the records
-        Database.insert(jobsToInsert, false);
+        insert jobsToInsert;
     }
 }
