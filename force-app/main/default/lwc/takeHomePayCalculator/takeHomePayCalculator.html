@@ -9,27 +9,39 @@
             <p class="slds-p-horizontal_small">Calculates take-home pay after taxes</p>
           <div></div>
             <div class="slds-p-around_medium lgc-bg">
-              <table class="table">
-                <tr class="tr">
+              <table class="table" style="font-family: arial, sans-serif; border-spacing: 3px 12px; width: 100%;">
+                <tr class="tr" style="font-weight: bold; background-color: #acf3e4; font-size: 16px;">
                   <th>Frequency</th>
                   <th>Take-Home Pay</th>
                 </tr>
-                <tr></tr>
-                <tr class="tr">
+                <tr class="tr" style="font-weight: bold; font-size: 14px;">
                   <td>Annual Take-Home Pay</td>
                   <td>${takeHomePay}</td>
                 </tr>
-                <tr class="tr">
+                <tr class="tr" style="font-weight: normal; font-size: 14px;">
                   <td>Semi-Annual Pay</td>
                   <td>${semiAnnualTakeHomePay}</td>
                 </tr>
-                <tr class="tr">
+                <tr class="tr" style="font-weight: normal; font-size: 14px;">
                   <td>Monthly Pay</td>
                   <td>${monthlyTakeHomePay}</td>
                 </tr>
-                <tr class="tr">
+                <tr class="tr" style="font-weight: normal; font-size: 14px;">
                   <td>Bi-Weekly Pay</td>
                   <td>${biWeeklyTakeHomePay}</td>
+                </tr>
+                <tr></tr>
+                <tr class="tr" style="font-weight: normal; font-size: 14px; font-style: italic;">
+                  <td>Federal Tax</td>
+                  <td>${federalTaxAmount}</td>
+                </tr>
+                <tr class="tr" style="font-weight: normal; font-size: 14px; font-style: italic;">
+                  <td>Medicare Deduction</td>
+                  <td>${medicareTaxAmount}</td>
+                </tr>
+                <tr class="tr" style="font-weight: normal; font-size: 14px; font-style: italic;">
+                  <td>Social Security</td>
+                  <td>${socialSecurityAmount}</td>
                 </tr>
               </table>  
             </div>

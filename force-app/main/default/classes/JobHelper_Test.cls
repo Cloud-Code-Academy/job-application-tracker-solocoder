@@ -52,7 +52,7 @@ public with sharing class JobHelper_Test {
     }
 
     @IsTest
-    static void getJobFromJobble_Test() {
+    static void getJobFromJobble_Pos() {
         
         String keyword = 'Salesforce Developer';
         String location = 'Seattle, WA';

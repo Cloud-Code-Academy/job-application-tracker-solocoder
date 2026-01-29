@@ -27,7 +27,7 @@ export default class TakeHomePayCalculator extends LightningElement {
         catch (error) {
         console.log('Salary:', salary);
         console.log('federalTaxAmount:', federal);
-        console.log('medicalTaxAmount:', medical);
+        console.log('medicareTaxAmount:', medical);
         console.log('socialTaxAmount:', social);
         console.log('Take Home:', this.takeHomePay);
         }  

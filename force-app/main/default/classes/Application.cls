@@ -17,13 +17,12 @@ public with sharing class Application {
     }
     /**
      * This method inserts tasks based on the task status of Application records
-     * @param newApps list of new applications
+     * @param newApps list of applications
      * @param oldAppMap list of old values in list of applications
      */
     public static void createTasksOnChangeStatus(List<Application__c> newApps, Map<Id, Application__c> oldAppMap) {
+        List<Task> tasksToCreate = new List<Task>();
         if(!newApps.isEmpty()){
-            List<Task> tasksToCreate = new List<Task>();
-
             for (Application__c app : newApps) {
                 Application__c oldApp = oldAppMap.get(app.Id);
                 if (app.Application_Status__c != oldApp.Application_Status__c) {
@@ -31,9 +30,27 @@ public with sharing class Application {
                     tasksToCreate.addAll(newTasks);
                 }
             }
-            if (!tasksToCreate.isEmpty()) {
-                Database.insert(tasksToCreate, AccessLevel.USER_MODE);
-            }
+        }
+        if (!tasksToCreate.isEmpty()) {
+            Database.insert(tasksToCreate, AccessLevel.USER_MODE);
+        }
+    }
+
+    /**
+     * This method inserts tasks based on the task status of New Application records
+     * @param newApps list of new applications
+     */
+    public static void createTasksOnNewRecordStatus(List<Application__c> newApps) {
+        System.debug('Applications in trigger.new list::' + newApps);
+        List<Task> tasksToCreate = new List<Task>();
+        if(!newApps.isEmpty()){
+            for (Application__c app : newApps) {
+                List<Task> newTasks = ApplicationHelper.createTasksForStatus(app);
+                tasksToCreate.addAll(newTasks);
+                }
+        }
+        if (!tasksToCreate.isEmpty()) {
+            Database.insert(tasksToCreate, AccessLevel.USER_MODE);
         }
     }
 }
