@@ -28,7 +28,7 @@ public with sharing class JobHelper_Test {
     @IsTest
     public static void setPrimaryContacts_ContInAcctNoPrimary() {
         Account newAcc = new Account (Name = 'Apex Coders');
-        Account newAcc2 = new Account (Name = 'Awesome Account');
+        Account newAcc2 = new Account (Name = 'Jooble');
         insert new List<Account>{newAcc, newAcc2};
         
         Contact newPrimaryCont = new Contact (LastName = 'Snuggles', Level__c = 'Primary', AccountId = newAcc.Id);
@@ -52,8 +52,10 @@ public with sharing class JobHelper_Test {
     }
 
     @IsTest
-    static void getJobFromJobble_Pos() {
-        List<Account> acct = [SELECT Id, Name FROM Account LIMIT 1];
+    static void getJobFromJooble_Pos() {
+        List<Account> acct = new List<Account>{
+            new Account (Name = 'Jooble')
+        };
         insert acct;
         
         String keyword = 'Salesforce Developer';
@@ -66,7 +68,7 @@ public with sharing class JobHelper_Test {
 
         Test.startTest();
          
-            JobHelper.getJobFromJobble(keyword, location, page, resultsOnPage, minSalary);
+            JobHelper.getJobFromJooble(keyword, location, page, resultsOnPage, minSalary);
         
         Test.stopTest();
 

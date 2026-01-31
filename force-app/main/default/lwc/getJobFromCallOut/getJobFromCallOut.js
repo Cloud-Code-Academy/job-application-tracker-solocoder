@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-import getJobFromJobble from '@salesforce/apex/JobHelper.getJobFromJobble';
+import getJobFromJooble from '@salesforce/apex/JobHelper.getJobFromJooble';
 export default class GetJobFromCallOut extends LightningElement {
 
 keyword;
@@ -31,7 +31,7 @@ minSalary;
 
 
     async handleOnclick() {
-            await getJobFromJobble({keyword: this.keyword, location: this.location, page: this.page, resultsOnPage: this.resultsOnPage, minSalary: this.minSalary})
+            await getJobFromJooble({keyword: this.keyword, location: this.location, page: this.page, resultsOnPage: this.resultsOnPage, minSalary: this.minSalary})
             .then(result => {
                 this.showSuccess = true;
             })

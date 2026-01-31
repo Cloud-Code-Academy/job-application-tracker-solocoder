@@ -4,7 +4,7 @@
 public with sharing class ApplicationHelper {
     /**
      * This method caculates the federal taxes of the annual salary
-     * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
+     * @param annualSalary Desired Salary field is what the annual salary amount used for calculating taxes.
      * @return taxAmount calculated federal tax amount for the annual salary.
      */
     public static Decimal calculateFederalTax(Decimal annualSalary) {
@@ -35,7 +35,7 @@ public with sharing class ApplicationHelper {
     }
     /**
     * This method caculates the medicare withholding on the annual salary
-    * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
+    * @param annualSalary Desired Salary field is what the annual salary amount used for calculating taxes.
     * @return Decimal calculated Medicare tax amount for the annual salary.
     */
     public static Decimal calculateMedicareTax(Decimal annualSalary) {
@@ -59,7 +59,7 @@ public with sharing class ApplicationHelper {
     }
     /**
     * This method caculates the social security on the annual salary
-    * @param annualSalary annualSalary the annual salary amount used for calculating taxes.
+    * @param annualSalary the Desired Salary field is what annual salary amount used for calculating taxes.
     * @return Decimal calculated Social Security tax amount for the annual salary.
     */
     public static Decimal calculateSocialSecurityTax(Decimal annualSalary) {
@@ -75,7 +75,7 @@ public with sharing class ApplicationHelper {
     }
     /**
     * This method creates task(s) based on the application status field
-    * @param app record
+    * @param app application record to be processed
     * @return List returns a list of tasks to be created
      */
     public static List<Task> createTasksForStatus(Application__c app) {

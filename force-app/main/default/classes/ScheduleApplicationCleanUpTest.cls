@@ -47,8 +47,6 @@ public with sharing class ScheduleApplicationCleanUpTest {
 
     @IsTest
     public static void ScheduleApplicationCleanUpTest_Pos() {
-        
-        Decimal taxAmount = ApplicationHelper.calculateFederalTax(125000);
 
         List<Application__c> apps = [SELECT Id, Application_Status__c 
                                       FROM Application__c];

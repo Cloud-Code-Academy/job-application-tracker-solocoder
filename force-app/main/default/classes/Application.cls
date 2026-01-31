@@ -7,7 +7,8 @@ public with sharing class Application {
      * @param applications List of new or updated application records
      */
     public static void populateFederalTax(List<Application__c> applications) {
-        if (!applications.isEmpty()) {
+        List<Application__c> appsWithSalary = [SELECT Id, Annual_Salary__c FROM Application__c WHERE Annual_Salary__c != null WITH SECURITY_ENFORCED];
+        if (!appsWithSalary.isEmpty()) {
            for (Application__c app : applications) {
             app.Federal_Tax_Amount__c = ApplicationHelper.calculateFederalTax(app.Annual_Salary__c);
             app.Medicare_Withholding__c = ApplicationHelper.calculateMedicareTax(app.Annual_Salary__c);
@@ -41,9 +42,9 @@ public with sharing class Application {
      * @param newApps list of new applications
      */
     public static void createTasksOnNewRecordStatus(List<Application__c> newApps) {
-        
         List<Task> tasksToCreate = new List<Task>();
-        if(!newApps.isEmpty()){
+        List<Application__c> appsWithStatus = [SELECT Id, Application_Status__c FROM Application__c WHERE Application_Status__c != '' WITH SECURITY_ENFORCED];
+        if(!appsWithStatus.isEmpty()){
             for (Application__c app : newApps) {
                 List<Task> newTasks = ApplicationHelper.createTasksForStatus(app);
                 tasksToCreate.addAll(newTasks);
