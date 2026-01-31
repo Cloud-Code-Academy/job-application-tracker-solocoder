@@ -53,6 +53,8 @@ public with sharing class JobHelper_Test {
 
     @IsTest
     static void getJobFromJobble_Pos() {
+        List<Account> acct = [SELECT Id, Name FROM Account LIMIT 1];
+        insert acct;
         
         String keyword = 'Salesforce Developer';
         String location = 'Seattle, WA';

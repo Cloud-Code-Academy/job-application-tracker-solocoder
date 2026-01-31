@@ -8,12 +8,20 @@
             <lightning-button class="slds-p-around_medium lgc-bg" label="Calculate" onclick={onClick}></lightning-button>
             <p class="slds-p-horizontal_small">Calculates take-home pay after taxes</p>
           <div></div>
+
             <div class="slds-p-around_medium lgc-bg">
-              <table class="table" style="font-family: arial, sans-serif; border-spacing: 3px 12px; width: 100%;">
+              <table class="table" style="font-family: arial, sans-serif; border-spacing: 3px 12px; table-layout: fixed; width: 100%;">
+                <colgroup>
+                  <col style="width: 50%;">
+                  <col style="width: 50%;">
+                </colgroup>
+                <thead>
                 <tr class="tr" style="font-weight: bold; background-color: #acf3e4; font-size: 16px;">
                   <th>Frequency</th>
                   <th>Take-Home Pay</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr class="tr" style="font-weight: bold; font-size: 14px;">
                   <td>Annual Take-Home Pay</td>
                   <td>${takeHomePay}</td>
@@ -30,21 +38,37 @@
                   <td>Bi-Weekly Pay</td>
                   <td>${biWeeklyTakeHomePay}</td>
                 </tr>
-                <tr></tr>
-                <tr class="tr" style="font-weight: normal; font-size: 14px; font-style: italic;">
+                </tbody>
+              </table> 
+              </div>
+              <div class="slds-p-around_medium lgc-bg">
+                <table class="table" style="font-family: arial, sans-serif; border-spacing: 3px 12px; table-layout: fixed; width: 100%;">
+                <colgroup>
+                  <col style="width: 50%;">
+                  <col style="width: 50%;">
+                </colgroup>
+                <thead>
+                  <tr class="tr" style="font-weight: normal; font-size: 14px;">
+                  <th>Tax Category</th>
+                  <th>Amount Withheld</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="tr" style="font-weight: normal; font-size: 14px; ">
                   <td>Federal Tax</td>
                   <td>${federalTaxAmount}</td>
                 </tr>
-                <tr class="tr" style="font-weight: normal; font-size: 14px; font-style: italic;">
+                <tr class="tr" style="font-weight: normal; font-size: 14px;">
                   <td>Medicare Deduction</td>
                   <td>${medicareTaxAmount}</td>
                 </tr>
-                <tr class="tr" style="font-weight: normal; font-size: 14px; font-style: italic;">
+                <tr class="tr" style="font-weight: normal; font-size: 14px;">
                   <td>Social Security</td>
                   <td>${socialSecurityAmount}</td>
                 </tr>
-              </table>  
-            </div>
+                </tbody>
+              </table>
+            </div> 
             <p slot="footer">Cloud Code Academy</p>
         </lightning-card>
 </template>

@@ -41,7 +41,7 @@ public with sharing class Application {
      * @param newApps list of new applications
      */
     public static void createTasksOnNewRecordStatus(List<Application__c> newApps) {
-        System.debug('Applications in trigger.new list::' + newApps);
+        
         List<Task> tasksToCreate = new List<Task>();
         if(!newApps.isEmpty()){
             for (Application__c app : newApps) {

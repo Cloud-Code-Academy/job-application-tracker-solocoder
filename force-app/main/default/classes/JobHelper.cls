@@ -9,13 +9,13 @@ public with sharing class JobHelper {
     public static void setPrimaryContacts(List<Job__c> jobRecords) {
         List<Job__c> jobRecordsToUpdate = new List<Job__c>();
         // set the primary contact on Job record
-        jobRecords = [SELECT Id, Company__c, Company__r.Name, Primary_Contact__c
-                      FROM Job__c
-                      WHERE Primary_Contact__c = null
-                      WITH SECURITY_ENFORCED];
+        List<Job__c> jobRecordsToProcess = [SELECT Id, Company__c, Company__r.Name, Primary_Contact__c
+                                            FROM Job__c
+                                            WHERE Primary_Contact__c = null
+                                            WITH SECURITY_ENFORCED];
         // get set of account ids where primary contact is null
         Set<Id> companyAcctIds = new Set<Id>();
-        for (Job__c jobs : jobRecords) {
+        for (Job__c jobs : jobRecordsToProcess) {
             companyAcctIds.add(jobs.Company__c);
         }
         // map contacts to accounts
@@ -44,7 +44,7 @@ public with sharing class JobHelper {
                 }
             }
         // assign the primary contact to job based on AccountId
-        for (Job__c jobContact : jobRecords) {
+        for (Job__c jobContact : jobRecordsToProcess) {
             if (jobContact.Company__c != null && accountIdToContactId.containsKey(jobContact.Company__c)) {
             Id contactIdToAssign = accountIdToContactId.get(jobContact.Company__c);
             jobContact.Primary_Contact__c = contactIdToAssign;
@@ -69,7 +69,7 @@ public with sharing class JobHelper {
     public static void getJobFromJobble(String keyword, String location, Integer page, Integer resultsOnPage, Integer minSalary) {
         String parm = '{"keywords": "' + keyword + '", "location": "' + location + '", "page": "' + page + '", "resultonpage": "' + resultsOnPage + '", "salary": "' + minSalary + '"}';
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://jooble.org/api' + '/85165ee4-2fcb-4827-bbdc-9c34fbaf4061');
+        req.setEndpoint('https://jooble.org/api/85165ee4-2fcb-4827-bbdc-9c34fbaf4061');
         req.setMethod('POST');
         req.setHeader('Content-type', 'application/json');
         req.setBody(parm);
@@ -90,7 +90,7 @@ public with sharing class JobHelper {
     @TestVisible
     private static void createJobFromJson(String jsonResponse) {
         List<Job__c> jobsToInsert = new List<Job__c>();
-        //Account acct = [SELECT Id, Name FROM Account WHERE Name = 'Jooble' WITH SECURITY_ENFORCED];
+        //List<Account> acct = [SELECT Id, Name FROM Account WHERE Name = 'Jooble' WITH SECURITY_ENFORCED];
         Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(jsonResponse);
 
         List<Object> jobs = (List<Object>) jsonMap.get('jobs');
@@ -99,7 +99,7 @@ public with sharing class JobHelper {
             Map<String, Object> jobsFound = (Map<String, Object>) obj;
 
             Job__c job = new Job__c();
-            //job.Company__c = acct.Id;
+            //job.Company__c = acct[0].Id;
             job.Salary_Range__c = (String) jobsFound.get('salary');
             job.Job_Description__c = (String) jobsFound.get ('snippet');
             job.Company_Name__c = (String) jobsFound.get('company');
