@@ -52,7 +52,7 @@ public with sharing class JobHelper_Test {
     }
 
     @IsTest
-    static void getJobFromJooble_Pos() {
+    public static void getJobFromJooble_Pos() {
         List<Account> acct = new List<Account>{
             new Account (Name = 'Jooble')
         };
@@ -75,5 +75,46 @@ public with sharing class JobHelper_Test {
         List<Job__c> jobRecords = [SELECT Id FROM Job__c];
 
         System.assertEquals(1, jobRecords.size(), 'Records should have been created');
+    }
+
+    @IsTest
+    public static void populateStartingSalary_Pos() {
+        Account newAcc = new Account(Name = 'Apex Coders');
+        insert newAcc;
+        
+        List<Job__c> newJobList = new List<Job__c>{
+            new Job__c(Company__c = newAcc.Id, Salary_Range__c = '$1900 monthly'),
+            new Job__c(Company__c = newAcc.Id, Salary_Range__c = '$150k - $210k')
+        };
+        insert newJobList;
+
+        Test.startTest();
+            JobHelper.populateStartingSalary(newJobList);
+        Test.stopTest();
+
+        List<Job__c> updatedJobs = [SELECT Id, Salary_Offered__c FROM Job__c];
+
+        System.assertEquals(null, updatedJobs[0].Salary_Offered__c, 'The salary offered field should not have updated');
+        System.assertEquals(150000, updatedJobs[1].Salary_Offered__c, 'The salary offered field did not update correctly');
+    }
+    @IsTest
+    public static void populateStartingSalary_Neg() {
+        Account testAcc = new Account(Name = 'My Test Account');
+        insert testAcc;
+        
+        List<Job__c> newJobs= new List<Job__c>{
+            //new Job__c(Company__c = testAcc.Id, Salary_Range__c = ''),
+            //new Job__c(Company__c = testAcc.Id, Salary_Range__c = '$150k - $210k', Salary_Offered__c = 180000)
+        };
+        insert newJobs;
+
+        Test.startTest();
+            JobHelper.populateStartingSalary(newJobs);
+        Test.stopTest();
+
+        List<Job__c> updatedJobs = [SELECT Id, Salary_Offered__c FROM Job__c];
+
+        System.assertEquals(0, updatedJobs.size(), 'There were no jobs to process');
+        
     }
 }
