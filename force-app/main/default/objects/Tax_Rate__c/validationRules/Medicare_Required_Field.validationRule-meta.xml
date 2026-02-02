@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Medicare_Required_Field</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF (
+    ISPICKVAL (Tax_Rate_Type__c, &apos;Medicare&apos;),
+    ISNULL (Additional_Medicare_Tax_Rate__c),
+  FALSE
+)</errorConditionFormula>
+    <errorDisplayField>Additional_Medicare_Tax_Rate__c</errorDisplayField>
+    <errorMessage>Additional Medicare tax rate and Threshold Amount is needed for this tax rate type</errorMessage>
+</ValidationRule>

@@ -3,7 +3,7 @@ trigger ApplicationTrigger on Application__c (before insert, after update, befor
         Application.populateFederalTax(Trigger.new);
         }
     if (trigger.isBefore && trigger.isUpdate) {
-        Application.populateFederalTax(Trigger.new);
+        Application.populateUpdatedFederalTax(Trigger.new, Trigger.oldMap);
         }
     if (trigger.isAfter && trigger.isUpdate) {
         Application.createTasksOnChangeStatus(Trigger.new, Trigger.oldMap);

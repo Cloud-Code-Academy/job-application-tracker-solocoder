@@ -16,6 +16,23 @@ public with sharing class Application {
             }
         }
     }
+
+    /**
+     * This method assigns the applicable tax to each tax field by calling out the helper method that calculates each tax
+     * @param applications List of new or updated application records
+     */
+    public static void populateUpdatedFederalTax(List<Application__c> applications, Map<Id, Application__c> oldMap) {
+        if (!applications.isEmpty()) {
+            for (Application__c app : applications) {
+                Application__c oldAppMap = oldMap.get(app.Id);
+                if (app.Annual_Salary__c != oldAppMap.Annual_Salary__c) {
+                    app.Federal_Tax_Amount__c = ApplicationHelper.calculateFederalTax(app.Annual_Salary__c);
+                app.Medicare_Withholding__c = ApplicationHelper.calculateMedicareTax(app.Annual_Salary__c);
+                app.Social_Security__c = ApplicationHelper.calculateSocialSecurityTax(app.Annual_Salary__c);
+                }
+            }
+        }
+    }
     /**
      * This method inserts tasks based on the task status of Application records
      * @param newApps list of applications

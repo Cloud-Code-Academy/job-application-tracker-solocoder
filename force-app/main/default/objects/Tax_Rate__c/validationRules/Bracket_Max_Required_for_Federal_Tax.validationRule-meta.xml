@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bracket_Max_Required_for_Federal_Tax</fullName>
+    <active>false</active>
+    <description>required field if tax rate less than 37%</description>
+    <errorConditionFormula>IF (
+  AND (
+    ISPICKVAL (Tax_Rate_Type__c, &apos;Federal&apos;),
+    ISNULL ( Bracket_Max__c ),
+    Tax_Rate__c &lt; 37
+  ),
+  TRUE,
+  FALSE
+)</errorConditionFormula>
+    <errorDisplayField>Bracket_Max__c</errorDisplayField>
+    <errorMessage>Bracket Max is required for Federal Tax Rate type</errorMessage>
+</ValidationRule>
