@@ -12,6 +12,7 @@ public with sharing class UtilityHelper {
                                       FROM Event
                                       WHERE StartDateTime >= TODAY
                                       WITH SECURITY_ENFORCED];
+        // get a list of all the start times for these events
         List<Datetime> existingDateTimes = new List<Datetime>();
         if (!existingEvents.isEmpty()) {
             for (Event evnt : existingEvents) {
