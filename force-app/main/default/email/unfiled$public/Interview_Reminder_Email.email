@@ -1,0 +1,15 @@
+Hello {!Application__c.Applicant__c},
+
+Are you EXCITED!!  
+
+You have an interview scheduled for tomorrow: {!Application__c.Interview_Date_Time__c}
+
+Company: {!Job__c.Company_Name__c}
+
+Primary Contact: {!Job__c.Primary_Contact__c}
+
+Job Title: {!Job__c.Job_Title__c}
+
+{!Application__c.Job_Number__c}
+
+Good Luck!
