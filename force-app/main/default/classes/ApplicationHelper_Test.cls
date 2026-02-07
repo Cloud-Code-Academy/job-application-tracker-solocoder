@@ -23,7 +23,11 @@ public with sharing class ApplicationHelper_Test {
         Job__c newJob = new Job__c(Job_Description__c = 'Salesforce Developer II', Company__c = newAcc.Id);
         insert newJob;
 
-        Contact newAppCont = new Contact (LastName = 'Bloom', RecordTypeId = '012fj000003jOMDAA2');
+        Id recordTypeId = Schema.SObjectType.Contact
+        .getRecordTypeInfosByName()
+        .get('Applicant')
+        .getRecordTypeId();
+        Contact newAppCont = new Contact (LastName = 'Bloom', RecordTypeId = recordTypeId);
         insert newAppCont;
 
         Application__c newApp = new Application__c (
