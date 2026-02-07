@@ -8,6 +8,7 @@ page;
 resultsOnPage;
 minSalary;
 @track showSuccess = false;
+@track showError = false;
 
     changeHandler(event) {
         this.keyword = event.target.value;
@@ -36,6 +37,7 @@ minSalary;
                 this.showSuccess = true;
             })
             .catch (error => {
+                this.showError = true;
                 console.error('Error::: ' + error);
         });
     }

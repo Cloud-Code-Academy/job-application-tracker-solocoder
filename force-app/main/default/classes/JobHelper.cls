@@ -88,8 +88,8 @@ public with sharing class JobHelper {
         req.setBody(parm);
         Http http = new Http();
         HttpResponse res = http.send(req);
-        // System.debug('Response status code::: ' + res.getStatusCode());
-        // System.debug('Json Body::: ' + res.getBody());
+        //System.debug('Response status code::: ' + res.getStatusCode());
+        //System.debug('Json Body::: ' + res.getBody());
 
         if (res.getStatusCode() == 200) {
             JobHelper.createJobFromJson(res.getBody());
@@ -145,7 +145,7 @@ public with sharing class JobHelper {
                 String range = j.Salary_Range__c.substringAfter('$').substringBefore('k');
                 Decimal rangeInThousands = Decimal.valueOf(range);
                 j.Salary_Offered__c = rangeInThousands*1000;
-                System.debug('Salary offered for this job::: ' + j.id + ': '+ j.Salary_Offered__c);
+                //System.debug('Salary offered for this job::: ' + j.id + ': '+ j.Salary_Offered__c);
             }
             }
         }

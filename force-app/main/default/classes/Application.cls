@@ -27,8 +27,8 @@ public with sharing class Application {
                 Application__c oldAppMap = oldMap.get(app.Id);
                 if (app.Annual_Salary__c != oldAppMap.Annual_Salary__c) {
                     app.Federal_Tax_Amount__c = ApplicationHelper.calculateFederalTax(app.Annual_Salary__c);
-                app.Medicare_Withholding__c = ApplicationHelper.calculateMedicareTax(app.Annual_Salary__c);
-                app.Social_Security__c = ApplicationHelper.calculateSocialSecurityTax(app.Annual_Salary__c);
+                    app.Medicare_Withholding__c = ApplicationHelper.calculateMedicareTax(app.Annual_Salary__c);
+                    app.Social_Security__c = ApplicationHelper.calculateSocialSecurityTax(app.Annual_Salary__c);
                 }
             }
         }

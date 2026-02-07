@@ -65,11 +65,8 @@ public with sharing class JobHelper_Test {
         Integer minSalary = 120000;
 
         Test.setMock(HttpCalloutMock.class, new MockGenerator());
-
         Test.startTest();
-         
             JobHelper.getJobFromJooble(keyword, location, page, resultsOnPage, minSalary);
-        
         Test.stopTest();
 
         List<Job__c> jobRecords = [SELECT Id FROM Job__c];
