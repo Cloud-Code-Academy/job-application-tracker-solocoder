@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Medicare_Threshold_Amount__c</fullName>
+    <description>Enter Filing Year Additional Medicare Tax Threshold Amount</description>
+    <externalId>false</externalId>
+    <label>Medicare Threshold Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

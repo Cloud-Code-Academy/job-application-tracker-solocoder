@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Social_Security_Required_Field</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF (
+  ISPICKVAL (Tax_Rate_Type__c, &apos;Social Security&apos;),
+  ISNULL ( Social_Security_Wage_Limit__c ),
+  FALSE
+)</errorConditionFormula>
+    <errorDisplayField>Social_Security_Wage_Limit__c</errorDisplayField>
+    <errorMessage>A Wage Limit is needed for this tax rate type</errorMessage>
+</ValidationRule>

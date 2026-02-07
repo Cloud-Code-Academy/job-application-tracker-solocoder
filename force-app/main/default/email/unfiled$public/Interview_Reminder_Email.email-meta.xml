@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Reminder for Interview Scheduled</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Interview Reminder Email</name>
+    <style>none</style>
+    <subject>Interview Scheduled for Tomorrow</subject>
+    <textOnly>Hello {!Application__c.Applicant__c},  
+
+Are you EXCITED!!  You have an interview scheduled for tomorrow: {!Application__c.Interview_Date_Time__c}  
+
+Company: {!Job__c.Company_Name__c}  
+Primary Contact: {!Job__c.Primary_Contact__c}  
+Job Title: {!Job__c.Job_Title__c}  
+
+{!Application__c.Job_Number__c}  
+
+Good Luck!</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

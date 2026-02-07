@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Job_Number__c</columns>
+    <columns>Applicant__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Salary_Offered__c</columns>
+    <columns>Desired_Salary__c</columns>
+    <columns>Federal_Tax_Amount__c</columns>
+    <columns>Medicare_Withholding__c</columns>
+    <columns>Social_Security__c</columns>
+    <columns>Annual_Take_Home_Pay__c</columns>
+    <columns>Follow__c</columns>
+    <columns>Interview_Date_Time__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

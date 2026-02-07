@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bracket_Min_Required_for_Federal_Tax</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF (
+  ISPICKVAL (Tax_Rate_Type__c, &apos;Federal&apos;),
+  ISNULL ( Bracket_Min__c),
+  FALSE
+)</errorConditionFormula>
+    <errorDisplayField>Bracket_Min__c</errorDisplayField>
+    <errorMessage>Bracket Min is required for Federal Tax Rate type</errorMessage>
+</ValidationRule>

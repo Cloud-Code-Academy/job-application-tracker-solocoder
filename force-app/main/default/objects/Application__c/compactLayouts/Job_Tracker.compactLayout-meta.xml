@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Tracker</fullName>
+    <fields>Applicant__c</fields>
+    <fields>Company__c</fields>
+    <fields>Salary_Offered__c</fields>
+    <fields>Desired_Salary__c</fields>
+    <fields>Annual_Take_Home_Pay__c</fields>
+    <label>Job Tracker</label>
+</CompactLayout>

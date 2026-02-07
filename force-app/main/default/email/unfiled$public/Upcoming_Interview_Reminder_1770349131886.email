@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Hello&nbsp;{{{Application__c.Applicant__c}}},<br />
+<br />
+Don't forget you have an interview scheduled for tomorrow:&nbsp; {{{Application__c.Interview_Date_Time__c}}}.<br />
+<br />
+Company:&nbsp;{{{Application__c.Company__c}}}<br />
+Primary Contact:&nbsp;{{{Application__c.Primary_Contact__c}}}<br />
+<br />
+Application for: {{{Application__c.Job_Number__c}}}<br />
+<br />
+<br />
+Good luck!!</body>
+</html>
